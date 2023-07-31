@@ -28,7 +28,7 @@ pasta_download = local_download()
 while rodando:
     limpar_tela()
     print("Bem vindo ao Downloader de vídeos!")
-    opcao = input("Digite (0) para baixar vídeo \nDigite (1) para fechar programa\n")
+    opcao = input("Digite (0) para baixar vídeo \nDigite (1) para baixar somente o áudio \nDigite (2) para fechar programa\n")
     print("By: Raul Werner")
     if opcao == "0":
         limpar_tela()
@@ -57,6 +57,31 @@ while rodando:
         else:
             pass
     elif opcao == "1":
+        limpar_tela()
+        link = input("Digite o link do vídeo que deseja baixar o áudio: ")
+        yt = YouTube(link)
+        titulo = yt.title
+        views = yt.views
+        autor = yt.author
+
+        print("Título do vídeo:", titulo)
+        print("Autor do vídeo:", autor)
+        print("Visualizações do vídeo:", views)
+
+        opcao2 = input("Esse é o vídeo correto?\nSe sim digite (0), se não digite(1)\n")
+        if opcao2 == "0":
+            yd_audio = yt.streams.filter(only_audio=True)
+            yd_audio = yd_audio.first()# Escolher a primeira stream disponível (a de melhor qualidade)
+            try:
+                yd_audio.download(pasta_download)
+                print("Local do download: ",pasta_download)
+                print("Download concluído com sucesso!")                
+            except:
+                print("Erro no download")
+            input("Pressione ENTER para continuar...")
+        elif opcao2 == "1":
+            pass
+    elif opcao == "2":
         break
     else:
         pass
